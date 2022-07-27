@@ -1,0 +1,23 @@
+---
+- name: Host website
+  hosts: n1
+  become: yes
+  tasks:
+  - name: install httpd
+    yum:
+      name: httpd
+      state: present
+  - name: Enable httpd service
+    service:
+      name: httpd
+      enabled: yes
+      state: started
+  - name: Install git module
+    yum:
+      name: git
+      state: present
+  - name: Download website
+    git:
+      repo: 'https://github.com/ravi2krishna/ecomm.git'
+      dest: /var/www/html
+...
