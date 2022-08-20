@@ -1,6 +1,6 @@
 ---
 - name: Host website
-  hosts: n1
+  hosts: All
   become: yes
   tasks:
   - name: install httpd
