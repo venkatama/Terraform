@@ -1,0 +1,7 @@
+<html>
+<center>
+<h1>this server runs with OS {{ ansible_distribution }}</h1>
+<h2> this server hostname is {{ ansible_hostname }}</h2>
+<h3> The logged in usernmae is {{user_name}}</h3>
+</center>
+</html>

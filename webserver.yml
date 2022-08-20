@@ -1,17 +1,21 @@
 ---
 - name: Host website
   hosts: Terraform
+  vars:
+    user_name: Manikanta
   become: yes
   tasks:
   - name: install httpd
     yum:
       name: httpd
       state: present
+    when: ansible_distribution == "Amazon"
   - name: Enable httpd service
     service:
       name: httpd
       enabled: yes
       state: started
+    when: ansible_distribution == "Amazon"
   - name: Install git module
     yum:
       name: git
@@ -20,4 +24,8 @@
     git:
       repo: 'https://github.com/ravi2krishna/ecomm.git'
       dest: /var/www/html
+  - name: Copy static page
+    template:
+      src: dynamic.jp
+      dest: /var/www/html/dynamic.html
 ...
