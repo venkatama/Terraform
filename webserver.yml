@@ -1,6 +1,6 @@
 ---
 - name: Host website
-  hosts: All
+  hosts: Terraform
   become: yes
   tasks:
   - name: install httpd
