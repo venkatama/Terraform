@@ -1,0 +1,9 @@
+---
+- name: Host websites
+  hosts: Terraform
+  become: yes
+  roles:
+    - webserver
+    - php
+...
+

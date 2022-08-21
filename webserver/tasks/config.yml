@@ -1,0 +1,15 @@
+---
+  - name: Copy httpd configuration file
+    template:
+      src: httpd.jp
+      dest: /etc/httpd/conf/httpd.conf
+    notify:
+      - Restart httpd service
+
+  - name: Copy static file to website
+    copy:
+      src: static.html
+      dest: /var/www/html/
+      force: yes
+
+...

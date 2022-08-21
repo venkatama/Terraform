@@ -1,0 +1,8 @@
+---
+- name: Install php software
+  yum:
+    name: php
+    state: latest
+  notify: Restart httpd service
+...
+
