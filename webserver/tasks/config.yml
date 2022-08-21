@@ -6,10 +6,4 @@
     notify:
       - Restart httpd service
 
-  - name: Copy static file to website
-    copy:
-      src: static.html
-      dest: /var/www/html/
-      force: yes
-
 ...

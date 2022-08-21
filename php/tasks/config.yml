@@ -1,8 +1,9 @@
 ---
-    - name : download php data from git
-      git:
-        repo: https://github.com/aeimskei/basic-php-website.git
-        dest: /var/www/html
-        clone: yes
+ - name : download php data from git
+   git:
+     repo: https://github.com/aeimskei/basic-php-website.git
+     dest: /var/www/html/
+     clone: yes
+     force: yes
 ...
 
