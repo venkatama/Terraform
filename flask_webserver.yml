@@ -1,0 +1,96 @@
+---
+- name: Host website
+  hosts: Terraform
+  become: yes
+  vars:
+    dest: /home/ec2-user/awscliv2.zip
+  tasks:
+  - name: Download AWS CLI
+    ansible.builtin.get_url:
+      url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+      dest: "{{ dest }}"
+      mode: '0440'
+
+  - name: Unarchive a file that is already on the remote machine
+    ansible.builtin.unarchive:
+      src: "{{ dest }}"
+      dest: /home/ec2-user
+      remote_src: yes
+
+  - name: Execute the command in remote shell; stdout goes to the specified file on the remote
+    ansible.builtin.shell: 
+      #amazon-linux-extras install epel -y
+    ignore_errors: yes
+
+  - name: Upgrade all packages
+    ansible.builtin.yum:
+      name: '*'
+      state: latest
+
+  - name: Install required packages
+    yum:
+      name: ['python','python-setuptools','python-dev','build-essential','python-pip','python-mysqldb','http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm','mysql-server','mysql-devel','MySQL-python','python-pip','git']
+      state: present
+      lock_timeout: 60
+    ignore_errors: yes
+
+  - name: Install mysql services
+    yum:
+      name: "{{item}}"
+      state: present
+    with_items:
+      - git
+      - pip
+      - mysql-server
+      - mysql-devel
+      - http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+
+  - name: create MySQL configuration file
+    copy:
+      content: |
+        [client]
+        user=root
+        password="Ericsson@123"
+      dest: "/etc/.my.cnf"
+
+  - name: Start MySQL Service
+    service:
+      name: mysqld
+      state: started
+      enabled: yes
+
+  - name: Install python packages
+    ansible.builtin.pip:
+      name: "{{item}}"
+      state: present
+    with_items:
+      - "flask"
+      - "flask-mysql"
+
+  - name: Create a new database with name 'bobdata'
+    mysql_db:
+      name: employee_db
+      state: present
+
+  - name: Create Database user
+    mysql_user:
+      name: db_user
+      password: Passw0rd
+      priv: '*.*:ALL'
+      state: present
+
+  - name: Download app.py file from github
+    ansible.builtin.git:
+      repo: https://github.com/kodekloudhub/simple_web_application.git
+      dest: /home/ec2-user/simple_web-application
+
+  - name: Copy app.py file to /opt/
+    copy:
+      src: /home/ec2-user/simple_web-application/app.py
+      dest: /opt/app.py
+      remote_src: yes
+
+  - name: Start web server
+    shell: FLASK_APP=/opt/app.py nohup flask run --host=0.0.0.0 &
+
+...
