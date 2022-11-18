@@ -1,0 +1,10 @@
+---
+- name: checking the miles
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: checking the mode of transport
+      miles:
+        Miles: 3
+      register: output_data
+    - debug: var=output_data.msg_output.Mode  
