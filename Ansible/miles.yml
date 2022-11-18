@@ -1,0 +1,22 @@
+---
+- name: checking the miles
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: checking the mode of transport
+      miles:
+        Miles: 3
+      register: output_data
+    - debug: var=output_data.msg_output.Mode
+    - name: Exporting the data to logfile
+      create_log:
+        content: "{{ output_data.msg_output.Mode[0] }}"
+        path: logfile.txt
+
+    - name: install packages
+      package_install:
+        pack: httpd
+      register: pack_status
+    - debug: var=pack_status
+
+...  

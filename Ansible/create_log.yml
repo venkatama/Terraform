@@ -1,0 +1,11 @@
+---
+- name: writing the log file
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: writing the log file
+      create_log:
+        content: "This is a test file"
+        path: logfile.txt
+
+...  
