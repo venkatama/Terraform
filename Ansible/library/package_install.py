@@ -10,7 +10,7 @@ def package_install(pack):
     install_cmd = "sudo yum install "+ pack + " -y"
     return_data['command'].append(install_cmd)
     try:
-#         os.system(install_cmd)
+         os.system(install_cmd)
          os.getcwd()
          return_data['Present'].append("True")
     except:
