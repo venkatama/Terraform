@@ -1,0 +1,2 @@
+ansible_ssh_user: mani
+ansible_ssh_pass: pass123

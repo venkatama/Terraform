@@ -1,0 +1,33 @@
+  - name: create MySQL configuration file
+    copy:
+      content: |
+        [client]
+        user=root
+        password="Ericsson@123"
+      dest: "/etc/.my.cnf"
+
+  - name: Start MySQL Service
+    service:
+      name: mysqld
+      state: started
+      enabled: yes
+
+  - name: Install python packages
+    ansible.builtin.pip:
+      name: "{{item}}"
+      state: present
+    with_items:
+      - "flask"
+      - "flask-mysql"
+
+  - name: Create a new database with name 'bobdata'
+    mysql_db:
+      name: employee_db
+      state: present
+
+  - name: Create Database user
+    mysql_user:
+      name: db_user
+      password: Passw0rd
+      priv: '*.*:ALL'
+      state: present

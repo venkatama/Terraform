@@ -1,0 +1,17 @@
+  - name: Install required packages
+    yum:
+      name: ['python','python-setuptools','python-dev','build-essential','python-pip','python-mysqldb','http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm','mysql-server','mysql-devel','MySQL-python','python-pip','git']
+      state: present
+      lock_timeout: 60
+    ignore_errors: yes
+
+  - name: Install mysql services
+    yum:
+      name: "{{item}}"
+      state: present
+    with_items:
+      - git
+      - pip
+      - mysql-server
+      - mysql-devel
+      - http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm

@@ -1,0 +1,13 @@
+  - name: Download app.py file from github
+    ansible.builtin.git:
+      repo: https://github.com/kodekloudhub/simple_web_application.git
+      dest: /home/ec2-user/simple_web-application
+
+  - name: Copy app.py file to /opt/
+    copy:
+      src: /home/ec2-user/simple_web-application/app.py
+      dest: /opt/app.py
+      remote_src: yes
+
+  - name: Start web server
+    shell: FLASK_APP=/opt/app.py nohup flask run --host=0.0.0.0 &

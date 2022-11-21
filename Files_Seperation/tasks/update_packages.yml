@@ -1,0 +1,22 @@
+
+  - name: Download AWS CLI
+    ansible.builtin.get_url:
+      url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+      dest: "{{ dest }}"
+      mode: '0440'
+
+  - name: Unarchive a file that is already on the remote machine
+    ansible.builtin.unarchive:
+      src: "{{ dest }}"
+      dest: /home/ec2-user
+      remote_src: yes
+
+  - name: Execute the command in remote shell; stdout goes to the specified file on the remote
+    ansible.builtin.shell:
+      #amazon-linux-extras install epel -y
+    ignore_errors: yes
+
+  - name: Upgrade all packages
+    ansible.builtin.yum:
+      name: '*'
+      state: latest
