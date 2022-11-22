@@ -2,10 +2,13 @@
 - name: Host website
   hosts: all
   become: yes
+  vars:
+    dest: "\home\mani\"
   tasks:
     - include: tasks/update_packages.yml
     - include: tasks/deploy_packages.yml
     - include: tasks/deploy_mysl_config.yml
     - include: tasks/deploy_website.yml
+  ansible_connection: local
 
 ...
