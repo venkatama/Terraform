@@ -1,6 +1,6 @@
 ---
 - name: Host websites
-  hosts: Terraform
+  hosts: all
   become: yes
   roles:
     - webserver
