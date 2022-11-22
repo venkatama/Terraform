@@ -1,6 +1,6 @@
 ---
 - name: checking the miles
-  hosts: All
+  hosts: all
   gather_facts: true
   tasks:
     - name: checking the mode of transport
